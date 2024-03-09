@@ -134,7 +134,10 @@ class ClipBoxes(nn.Module):
     def forward(self, boxes, img):
 
         batch_size, num_channels, height, width = img.shape
-
+        boxes[:, :, 0] = boxes[:, :, 0].cuda()
+        boxes[:, :, 1] = boxes[:, :, 1].cuda()
+        boxes[:, :, 2] = boxes[:, :, 2].cuda()
+        boxes[:, :, 3] = boxes[:, :, 3].cuda()
         boxes[:, :, 0] = torch.clamp(boxes[:, :, 0], min=0).cuda()
         boxes[:, :, 1] = torch.clamp(boxes[:, :, 1], min=0).cuda()
 
