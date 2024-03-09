@@ -182,11 +182,11 @@ class ResNet(nn.Module):
 
         self.anchors = Anchors().cuda()
 
-        self.regressBoxes = BBoxTransform()
+        self.regressBoxes = BBoxTransform().cuda()
 
-        self.clipBoxes = ClipBoxes()
+        self.clipBoxes = ClipBoxes().cuda()
 
-        self.focalLoss = losses.FocalLoss()
+        self.focalLoss = losses.FocalLoss().cuda()
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -282,14 +282,14 @@ class ResNet(nn.Module):
                 anchorBoxes = anchorBoxes[scores_over_thresh]
                 anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
 
-                finalResult[0].extend(scores[anchors_nms_idx]).cuda()
-                finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0])).cuda()
-                finalResult[2].extend(anchorBoxes[anchors_nms_idx]).cuda()
+                finalResult[0].extend(scores[anchors_nms_idx])
+                finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
+                finalResult[2].extend(anchorBoxes[anchors_nms_idx])
 
                 finalScores = torch.cat((finalScores, scores[anchors_nms_idx])).cuda()
                 finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
                 if torch.cuda.is_available():
-                    finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
+                    finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue
 
                 finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue)).cuda()
                 finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx])).cuda()
