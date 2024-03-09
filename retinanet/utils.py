@@ -101,27 +101,27 @@ class BBoxTransform(nn.Module):
 
     def forward(self, boxes, deltas):
 
-        widths  = boxes[:, :, 2] - boxes[:, :, 0]
-        heights = boxes[:, :, 3] - boxes[:, :, 1]
-        ctr_x   = boxes[:, :, 0] + 0.5 * widths
-        ctr_y   = boxes[:, :, 1] + 0.5 * heights
+        widths  = boxes[:, :, 2] - boxes[:, :, 0].cuda()
+        heights = boxes[:, :, 3] - boxes[:, :, 1].cuda()
+        ctr_x   = (boxes[:, :, 0] + 0.5 * widths).cuda()
+        ctr_y   = (boxes[:, :, 1] + 0.5 * heights).cuda()
 
-        dx = deltas[:, :, 0] * self.std[0] + self.mean[0]
-        dy = deltas[:, :, 1] * self.std[1] + self.mean[1]
-        dw = deltas[:, :, 2] * self.std[2] + self.mean[2]
-        dh = deltas[:, :, 3] * self.std[3] + self.mean[3]
+        dx = (deltas[:, :, 0] * self.std[0] + self.mean[0]).cuda()
+        dy = (deltas[:, :, 1] * self.std[1] + self.mean[1]).cuda()
+        dw = (deltas[:, :, 2] * self.std[2] + self.mean[2]).cuda()
+        dh = (deltas[:, :, 3] * self.std[3] + self.mean[3]).cuda()
 
-        pred_ctr_x = ctr_x + dx * widths
-        pred_ctr_y = ctr_y + dy * heights
-        pred_w     = torch.exp(dw) * widths
-        pred_h     = torch.exp(dh) * heights
+        pred_ctr_x = (ctr_x + dx * widths).cuda()
+        pred_ctr_y = (ctr_y + dy * heights).cuda()
+        pred_w     = (torch.exp(dw) * widths).cuda()
+        pred_h     = (torch.exp(dh) * heights).cuda()
 
-        pred_boxes_x1 = pred_ctr_x - 0.5 * pred_w
-        pred_boxes_y1 = pred_ctr_y - 0.5 * pred_h
-        pred_boxes_x2 = pred_ctr_x + 0.5 * pred_w
-        pred_boxes_y2 = pred_ctr_y + 0.5 * pred_h
+        pred_boxes_x1 = (pred_ctr_x - 0.5 * pred_w).cuda()
+        pred_boxes_y1 = (pred_ctr_y - 0.5 * pred_h).cuda()
+        pred_boxes_x2 = (pred_ctr_x + 0.5 * pred_w).cuda()
+        pred_boxes_y2 = (pred_ctr_y + 0.5 * pred_h).cuda()
 
-        pred_boxes = torch.stack([pred_boxes_x1, pred_boxes_y1, pred_boxes_x2, pred_boxes_y2], dim=2)
+        pred_boxes = torch.stack([pred_boxes_x1, pred_boxes_y1, pred_boxes_x2, pred_boxes_y2], dim=2).cuda()
 
         return pred_boxes
 
