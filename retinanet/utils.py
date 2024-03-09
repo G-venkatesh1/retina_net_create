@@ -90,14 +90,14 @@ class BBoxTransform(nn.Module):
                 self.mean = torch.from_numpy(np.array([0, 0, 0, 0]).astype(np.float32))
 
         else:
-            self.mean = mean
+            self.mean = mean.cuda()
         if std is None:
             if torch.cuda.is_available():
                 self.std = torch.from_numpy(np.array([0.1, 0.1, 0.2, 0.2]).astype(np.float32)).cuda()
             else:
                 self.std = torch.from_numpy(np.array([0.1, 0.1, 0.2, 0.2]).astype(np.float32))
         else:
-            self.std = std
+            self.std = std.cuda()
 
     def forward(self, boxes, deltas):
 
