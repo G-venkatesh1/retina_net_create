@@ -135,10 +135,10 @@ class ClipBoxes(nn.Module):
 
         batch_size, num_channels, height, width = img.shape
 
-        boxes[:, :, 0] = torch.clamp(boxes[:, :, 0], min=0)
-        boxes[:, :, 1] = torch.clamp(boxes[:, :, 1], min=0)
+        boxes[:, :, 0] = torch.clamp(boxes[:, :, 0], min=0).cuda()
+        boxes[:, :, 1] = torch.clamp(boxes[:, :, 1], min=0).cuda()
 
-        boxes[:, :, 2] = torch.clamp(boxes[:, :, 2], max=width)
-        boxes[:, :, 3] = torch.clamp(boxes[:, :, 3], max=height)
+        boxes[:, :, 2] = torch.clamp(boxes[:, :, 2], max=width).cuda()
+        boxes[:, :, 3] = torch.clamp(boxes[:, :, 3], max=height).cuda()
       
         return boxes
