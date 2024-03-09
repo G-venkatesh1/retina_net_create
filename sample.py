@@ -9,7 +9,7 @@ def main(args=None):
     model_path ='/kaggle/input/retina_net/pytorch/model/1/coco_resnet_50_map_0_335_state_dict.pt'
     retinanet = model.resnet50(num_classes=80, pretrained=True)
     retinanet.load_state_dict(torch.load(model_path))
-    example_input = torch.randn(1, 3, 600,800)
+    example_input = torch.randn(1, 3, 608,1024)
     onnx_path = "detr.onnx"
     torch.onnx.export(retinanet,                               # model being run
                   (example_input, ),                  # model input (or a tuple for multiple inputs)
