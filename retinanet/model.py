@@ -180,7 +180,7 @@ class ResNet(nn.Module):
         self.regressionModel = RegressionModel(256)
         self.classificationModel = ClassificationModel(256, num_classes=num_classes)
 
-        self.anchors = Anchors()
+        self.anchors = Anchors().cuda()
 
         self.regressBoxes = BBoxTransform()
 
@@ -282,17 +282,17 @@ class ResNet(nn.Module):
                 anchorBoxes = anchorBoxes[scores_over_thresh]
                 anchors_nms_idx = nms(anchorBoxes, scores, 0.5)
 
-                finalResult[0].extend(scores[anchors_nms_idx])
-                finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0]))
-                finalResult[2].extend(anchorBoxes[anchors_nms_idx])
+                finalResult[0].extend(scores[anchors_nms_idx]).cuda()
+                finalResult[1].extend(torch.tensor([i] * anchors_nms_idx.shape[0])).cuda()
+                finalResult[2].extend(anchorBoxes[anchors_nms_idx]).cuda()
 
-                finalScores = torch.cat((finalScores, scores[anchors_nms_idx]))
+                finalScores = torch.cat((finalScores, scores[anchors_nms_idx])).cuda()
                 finalAnchorBoxesIndexesValue = torch.tensor([i] * anchors_nms_idx.shape[0])
                 if torch.cuda.is_available():
                     finalAnchorBoxesIndexesValue = finalAnchorBoxesIndexesValue.cuda()
 
-                finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue))
-                finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx]))
+                finalAnchorBoxesIndexes = torch.cat((finalAnchorBoxesIndexes, finalAnchorBoxesIndexesValue)).cuda()
+                finalAnchorBoxesCoordinates = torch.cat((finalAnchorBoxesCoordinates, anchorBoxes[anchors_nms_idx])).cuda()
 
             return [finalScores, finalAnchorBoxesIndexes, finalAnchorBoxesCoordinates]
 

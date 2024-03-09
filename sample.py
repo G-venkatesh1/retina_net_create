@@ -22,6 +22,7 @@ def main(args=None):
                   dynamic_axes={"input": {0: "batch_size"},  # variable length axes
                                 "output": {0: "batch_size"}},verbose=True)
     
+    
 
 
 
