@@ -10,7 +10,7 @@ def main(args=None):
     retinanet = model.resnet50(num_classes=80, pretrained=True).cuda()
     retinanet.load_state_dict(torch.load(model_path))
     example_input = torch.randn(1, 3, 700,700).cuda()
-    onnx_path = "detr.onnx"
+    onnx_path = "ret.onnx"
     torch.onnx.export(retinanet,                               # model being run
                   (example_input, ),                  # model input (or a tuple for multiple inputs)
                   onnx_path,                           # where to save the model (can be a file or file-like object)
