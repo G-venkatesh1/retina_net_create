@@ -299,7 +299,7 @@ class CSVDataset(Dataset):
 
 
 def collater(data):
-
+    print("i am in collater")
     imgs = [s['img'] for s in data]
     annots = [s['annot'] for s in data]
     scales = [s['scale'] for s in data]
