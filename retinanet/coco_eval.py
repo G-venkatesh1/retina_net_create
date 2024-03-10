@@ -29,7 +29,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             boxes  = boxes.cpu()
 
             # correct boxes for image scale
-            boxes /= scale
+            # boxes /= scale
 
             if boxes.shape[0] > 0:
                 # change to (x, y, w, h) (MS COCO standard)
