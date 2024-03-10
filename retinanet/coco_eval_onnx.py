@@ -41,8 +41,8 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
                     box = boxes[box_id, :]
 
                     # scores are sorted, so we can break
-                    if score < threshold:
-                        break
+                    # if score < threshold:
+                        # break
 
                     # append detection for each positively labeled class
                     image_result = {
