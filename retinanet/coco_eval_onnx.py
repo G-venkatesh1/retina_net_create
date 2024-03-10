@@ -29,13 +29,14 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
                 # change to (x, y, w, h) (MS COCO standard)
                 boxes[:, 2] -= boxes[:, 0]
                 boxes[:, 3] -= boxes[:, 1]
-
+                
                 # compute predicted labels and scores
                 #for box, score, label in zip(boxes[0], scores[0], labels[0]):
+                print('no of boxes are',boxes.shape[0])
                 for box_id in range(boxes.shape[0]):
-                    score = float(scores[box_id])
-                    label = int(labels[box_id])
-                    box = boxes[box_id, :]
+                    score = float(scores[box_id-1])
+                    label = int(labels[box_id-1])
+                    box = boxes[box_id-1, :]
 
                     # scores are sorted, so we can break
                     if score < threshold:
