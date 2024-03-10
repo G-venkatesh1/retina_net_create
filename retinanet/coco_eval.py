@@ -12,14 +12,10 @@ def evaluate_coco(dataset, model, threshold=0.05):
         # start collecting results
         results = []
         image_ids = []
-        c=0
         for index in range(len(dataset)):
             data = dataset[index]
             xscale = data['xscale']
             yscale = data['yscale']
-            if(c>20) : break
-            c=c+1
-            print(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0).shape)
             # run network
             if torch.cuda.is_available():
                 scores, labels, boxes = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
