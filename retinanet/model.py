@@ -257,7 +257,7 @@ class ResNet(nn.Module):
             return self.focalLoss(classification, regression, anchors, annotations)
         else:
             transformed_anchors = self.regressBoxes(anchors, regression)
-            transformed_anchors = self.clipBoxes(transformed_anchors, img_batch)
+            transformed_anchors = self.clipBoxes(transformed_anchors, img_batch).cuda()
 
             finalResult = [[], [], []]
 
