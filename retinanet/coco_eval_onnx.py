@@ -34,6 +34,7 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
                 #for box, score, label in zip(boxes[0], scores[0], labels[0]):
                 print('no of boxes are',boxes.shape[0])
                 c=0
+                print(labels.shape,boxes.shape[0])
                 for box_id in range(boxes.shape[0]):
                     print('loop number is',box_id)
                     score = float(scores[box_id])
