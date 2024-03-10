@@ -31,11 +31,11 @@ def evaluate_coco(dataset, model, threshold=0.05):
 
             # correct boxes for image scale
             # boxes /= scale
-            print(xscale,yscale)
-            boxes[:, 0] /= xscale  # xmin
-            boxes[:, 1] /= yscale  # ymin
-            boxes[:, 2] /= xscale  # xmax
-            boxes[:, 3] /= yscale  # ymax
+            # print(xscale,yscale)
+            # boxes[:, 0] /= xscale  # xmin
+            # boxes[:, 1] /= yscale  # ymin
+            # boxes[:, 2] /= xscale  # xmax
+            # boxes[:, 3] /= yscale  # ymax
             if boxes.shape[0] > 0:
                 # change to (x, y, w, h) (MS COCO standard)
                 boxes[:, 2] -= boxes[:, 0]
