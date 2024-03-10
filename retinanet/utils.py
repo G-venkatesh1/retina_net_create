@@ -134,9 +134,9 @@ class ClipBoxes(nn.Module):
     def forward(self, boxes, img):
 
         batch_size, num_channels, height, width = img.shape
-        # width = width.cuda()
-        # height=height.cuda()
-        # num_channels = num_channels.cuda()
+        width = width.cuda()
+        height=height.cuda()
+        num_channels = num_channels.cuda()
         boxes[:, :, 0] = boxes[:, :, 0].cuda()
         boxes[:, :, 1] = boxes[:, :, 1].cuda()
         boxes[:, :, 2] = boxes[:, :, 2].cuda()
