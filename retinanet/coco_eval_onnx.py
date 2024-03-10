@@ -20,8 +20,9 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
             # run network
             input_name = ort_session.get_inputs()[0].name
             output_names = [output.name for output in ort_session.get_outputs()]
-            ort_inputs = {input_name: data['img'].permute(2, 0, 1).numpy().astype(np.float32)}
-            ort_outputs = ort_session.run(output_names, ort_inputs)           
+            img_tensor = np.expand_dims(data['img'].permute(2, 0, 1).numpy().astype(np.float32), axis=0)  # Add batch dimension
+            ort_inputs = {input_name: img_tensor}
+            ort_outputs = ort_session.run(output_names, ort_inputs)
             scores, labels, boxes = ort_outputs
             # boxes /= scale
             if boxes.shape[0] > 0:
