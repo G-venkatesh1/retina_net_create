@@ -353,7 +353,7 @@ class Resizer(object):
         annots[:, 1] *= yscale  # ymin
         annots[:, 2] *= xscale  # xmax
         annots[:, 3] *= yscale  # ymax
-        print('afer predictin',xscale,yscale)
+        # print('afer predictin',xscale,yscale)
         # scale =1.0
         return {'img': torch.from_numpy(new_image), 'annot': torch.from_numpy(annots), 'xscale': xscale,'yscale':yscale}
     # def __call__(self, sample, min_side=608, max_side=1024):
