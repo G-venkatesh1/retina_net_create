@@ -33,7 +33,9 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
                 # compute predicted labels and scores
                 #for box, score, label in zip(boxes[0], scores[0], labels[0]):
                 print('no of boxes are',boxes.shape[0])
+                c=0
                 for box_id in range(boxes.shape[0]):
+                    c=c+1
                     score = float(scores[box_id])
                     label = int(labels[box_id])
                     box = boxes[box_id, :]
@@ -52,7 +54,7 @@ def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
 
                     # append detection to results
                     results.append(image_result)
-
+            print('count is',c)
             # append image to list of processed images
             image_ids.append(dataset.image_ids[index])
 
