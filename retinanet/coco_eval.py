@@ -15,7 +15,8 @@ def evaluate_coco(dataset, model, threshold=0.05):
         c=0
         for index in range(len(dataset)):
             data = dataset[index]
-            scale = data['scale']
+            xscale = data['xscale']
+            yscale = data['yscale']
             if(c>20) : break
             c=c+1
             print(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0).shape)
@@ -30,10 +31,10 @@ def evaluate_coco(dataset, model, threshold=0.05):
 
             # correct boxes for image scale
             # boxes /= scale
-            boxes[:, 0] /= scale  # xmin
-            boxes[:, 1] /= scale  # ymin
-            boxes[:, 2] /= scale  # xmax
-            boxes[:, 3] /= scale  # ymax
+            boxes[:, 0] /= xscale  # xmin
+            boxes[:, 1] /= yscale  # ymin
+            boxes[:, 2] /= xscale  # xmax
+            boxes[:, 3] /= yscale  # ymax
             if boxes.shape[0] > 0:
                 # change to (x, y, w, h) (MS COCO standard)
                 boxes[:, 2] -= boxes[:, 0]
