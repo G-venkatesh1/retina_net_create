@@ -1,13 +1,14 @@
 from pycocotools.cocoeval import COCOeval
 import json
 import torch
+import numpy as np
 import onnxruntime
 
-def evaluate_coco(dataset, model, threshold=0.05):
+def evaluate_coco_onnx(dataset,onnx_path, threshold=0.05):
     
-    model.eval()
+        ort_session = onnxruntime.InferenceSession(onnx_path)
     
-    with torch.no_grad():
+    # with torch.no_grad():
 
         # start collecting results
         results = []
@@ -17,13 +18,11 @@ def evaluate_coco(dataset, model, threshold=0.05):
             xscale = data['xscale']
             yscale = data['yscale']
             # run network
-            if torch.cuda.is_available():
-                scores, labels, boxes = model(data['img'].permute(2, 0, 1).cuda().float().unsqueeze(dim=0))
-            else:
-                scores, labels, boxes = model(data['img'].permute(2, 0, 1).float().unsqueeze(dim=0))
-            scores = scores.cpu()
-            labels = labels.cpu()
-            boxes  = boxes.cpu()
+            input_name = ort_session.get_inputs()[0].name
+            output_names = [output.name for output in ort_session.get_outputs()]
+            ort_inputs = {input_name: data['img'].permute(2, 0, 1).numpy().astype(np.float32)}
+            ort_outputs = ort_session.run(output_names, ort_inputs)           
+            scores, labels, boxes = ort_outputs
             # boxes /= scale
             if boxes.shape[0] > 0:
                 # change to (x, y, w, h) (MS COCO standard)
@@ -75,6 +74,6 @@ def evaluate_coco(dataset, model, threshold=0.05):
         coco_eval.accumulate()
         coco_eval.summarize()
 
-        model.train()
+        # model.train()
 
         return
