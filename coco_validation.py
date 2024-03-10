@@ -42,7 +42,7 @@ def main(args=None):
     retinanet.eval()
     retinanet.module.freeze_bn()
 
-    # coco_eval.evaluate_coco(dataset_val, retinanet)
+    coco_eval.evaluate_coco(dataset_val, retinanet)
     onnx_path = '/kaggle/input/onnx_retinanet/onnx/model/1/ret.onnx'
     coco_eval_onnx.evaluate_coco_onnx(dataset_val,onnx_path)
 

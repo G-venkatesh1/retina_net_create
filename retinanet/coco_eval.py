@@ -12,7 +12,10 @@ def evaluate_coco(dataset, model, threshold=0.05):
         # start collecting results
         results = []
         image_ids = []
+        c=0
         for index in range(len(dataset)):
+            if(c>10):break
+            c=c+1
             data = dataset[index]
             xscale = data['xscale']
             yscale = data['yscale']
@@ -25,6 +28,7 @@ def evaluate_coco(dataset, model, threshold=0.05):
             labels = labels.cpu()
             boxes  = boxes.cpu()
             # boxes /= scale
+            print(labels.shape,scores.shape,boxes.shape)
             if boxes.shape[0] > 0:
                 # change to (x, y, w, h) (MS COCO standard)
                 boxes[:, 2] -= boxes[:, 0]
